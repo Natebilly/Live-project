@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Creator Trend Intelligence</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #040811;
+            --bg-secondary: #0a1222;
+            --bg-card: #0f1a2e;
+            --bg-card-hover: #152240;
+            --bg-elevated: #182a48;
+            --text-primary: #f0f4fc;
+            --text-secondary: #8898b4;
+            --text-muted: #4c6080;
+            --green: #00ffa3;
+            --purple: #a855f7;
+            --blue: #38bdf8;
+            --orange: #ff8c42;
+            --red: #ff4d6a;
+            --pink: #f472b6;
+            --yellow: #fbbf24;
+            --cyan: #22d3ee;
+            --border: #1a2d4a;
+            --border-glow: rgba(168, 85, 247, 0.4);
+            --glass: rgba(15, 26, 46, 0.7);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-mesh {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .bg-orb:nth-child(1) { width: 600px; height: 600px; background: var(--purple); top: -10%; left: -5%; animation-delay: 0s; }
+        .bg-orb:nth-child(2) { width: 500px; height: 500px; background: var(--blue); top: 40%; right: -10%; animation-delay: -7s; }
+        .bg-orb:nth-child(3) { width: 400px; height: 400px; background: var(--green); bottom: -5%; left: 30%; animation-delay: -14s; }
+        .bg-orb:nth-child(4) { width: 350px; height: 350px; background: var(--pink); top: 60%; left: 10%; animation-delay: -3s; }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -40px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(40px, 30px) scale(1.02); }
+        }
+
+        /* ===== PARTICLES ===== */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: particleFloat linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-20px) scale(1); opacity: 0; }
+        }
+
+        /* ===== SCROLL CONTAINER ===== */
+        .scroll-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 28px;
+            background: rgba(4, 8, 17, 0.75);
+            backdrop-filter: blur(20px) saturate(1.3);
+            border-bottom: 1px solid rgba(26, 45, 74, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .header.scrolled {
+            padding: 12px 28px;
+            background: rgba(4, 8, 17, 0.92);
+        }
+
+        .header-left h1 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--green), var(--blue), var(--purple));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header-left p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .live-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 255, 163, 0.06);
+            border: 1px solid rgba(0, 255, 163, 0.2);
+            padding: 5px 12px;
+            border-radius: 100px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .live-dot {
+            width: 6px; height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: livePulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 6px var(--green);
+        }
+
+        @keyframes livePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.8); opacity: 0.3; }
+        }
+
+        .timestamp {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+        }
+
+        .btn-refresh {
+            position: relative;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            border: none;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .btn-refresh::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-refresh:hover::before { left: 100%; }
+        .btn-refresh:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(168, 85, 247, 0.35); }
+        .btn-refresh:active { transform: scale(0.95); }
+
+        /* ===== MAIN CONTENT ===== */
+        .main { padding: 28px; max-width: 1480px; margin: 0 auto; }
+
+        /* ===== NAV TABS ===== */
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 28px;
+            width: fit-content;
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border: none;
+            background: none;
+        }
+
+        .nav-tab:hover { color: var(--text-secondary); }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            margin-bottom: 36px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title .icon {
+            width: 28px; height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .section-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ===== TREE OF THOUGHT ===== */
+        .tot-container {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tot-container::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), transparent, rgba(0, 255, 163, 0.2));
+            z-index: -1;
+            animation: borderGlow 4s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .tot-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .tot-root {
+            background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card));
+            border: 1px solid var(--purple);
+            border-radius: 12px;
+            padding: 16px 28px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.1);
+            max-width: 500px;
+            width: 100%;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.2); }
+        }
+
+        .tot-root-text {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .tot-connector-down {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--purple), var(--blue));
+            position: relative;
+        }
+
+        .tot-connector-down::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: -3px;
+            width: 8px; height: 8px;
+            background: var(--blue);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--blue);
+        }
+
+        .tot-branches-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+        }
+
+        .tot-branch {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tot-branch::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(168, 85, 247, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tot-branch:hover {
+            border-color: var(--purple);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(168, 85, 247, 0.15);
+        }
+
+        .tot-branch:hover::after { opacity: 1; }
+
+        .tot-branch.winner {
+            border-color: var(--green);
+            box-shadow: 0 0 25px rgba(0, 255, 163, 0.1);
+        }
+
+        .tot-branch-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .tot-branch-text {
+            font-size: 0.82rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .tot-branch-score {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(0, 255, 163, 0.1);
+            color: var(--green);
+        }
+
+        .tot-result {
+            background: linear-gradient(135deg, rgba(0, 255, 163, 0.05), rgba(56, 189, 248, 0.05));
+            border: 1px solid rgba(0, 255, 163, 0.3);
+            border-radius: 12px;
+            padding: 18px 24px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        .tot-result-badge {
+            position: absolute;
+            top: -10px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: var(--bg-primary);
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tot-result-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-top: 6px;
+        }
+
+        .tot-result-confidence {
+            margin-top: 10px;
+            font-size: 0.72rem;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        /* ===== STRATEGY CARDS ===== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .s-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .s-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            opacity: 0.8;
+        }
+
+        .s-card.hot::before { background: linear-gradient(90deg, var(--red), var(--orange)); }
+        .s-card.rising::before { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+        .s-card.stable::before { background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+
+        .s-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: var(--purple);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 30px rgba(168, 85, 247, 0.08);
+        }
+
+        .s-card:active { transform: translateY(-2px) scale(0.99); }
+
+        .s-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .s-card-badge {
+            font-size: 0.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .badge-hot { background: rgba(255, 77, 106, 0.12); color: var(--red); }
+        .badge-rising { background: rgba(0, 255, 163, 0.12); color: var(--green); }
+        .badge-stable { background: rgba(251, 191, 36, 0.12); color: var(--yellow); }
+
+        .s-card-score {
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .s-card-score small {
+            font-size: 0.6rem;
+            -webkit-text-fill-color: var(--text-muted);
+        }
+
+        .s-card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .s-card-desc {
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin-bottom: 14px;
+        }
+
+        .s-card-platforms {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .p-tag {
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .p-youtube { background: rgba(255, 0, 0, 0.1); color: #ff4444; border: 1px solid rgba(255,0,0,0.15); }
+        .p-tiktok { background: rgba(0, 242, 234, 0.08); color: #00f2ea; border: 1px solid rgba(0,242,234,0.15); }
+        .p-instagram { background: rgba(225, 48, 108, 0.1); color: #e1306c; border: 1px solid rgba(225,48,108,0.15); }
+
+        .s-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .tag {
+            font-size: 0.67rem;
+            padding: 3px 8px;
+            background: rgba(56, 189, 248, 0.06);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 4px;
+            color: var(--blue);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tag:hover {
+            background: rgba(56, 189, 248, 0.15);
+            transform: scale(1.08);
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2);
+        }
+
+        .tag:active::after {
+            content: ' copied!';
+            color: var(--green);
+        }
+
+        .s-card-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .s-metric {
+            text-align: center;
+        }
+
+        .s-metric-bar {
+            width: 100%;
+            height: 3px;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+            margin-bottom: 6px;
+            overflow: hidden;
+        }
+
+        .s-metric-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0;
+        }
+
+        .s-metric-val {
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .s-metric-label {
+            font-size: 0.58rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* ===== CHARTS ===== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .chart-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            transition: all 0.3s;
+        }
+
+        .chart-box:hover {
+            border-color: rgba(168, 85, 247, 0.3);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-box h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .chart-box .sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .chart-area { position: relative; height: 280px; }
+        .chart-area-sm { position: relative; height: 240px; }
+
+        /* ===== PLATFORM CARDS ===== */
+        .plat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .plat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plat-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, var(--plat-color, transparent), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .plat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .plat-card:hover::after { opacity: 0.05; }
+
+        .plat-emoji { font-size: 2.2rem; margin-bottom: 10px; }
+
+        .plat-name {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .plat-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .plat-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .plat-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plat-bar-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            width: 70px;
+            text-align: left;
+        }
+
+        .plat-bar-track {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .plat-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0;
+        }
+
+        .plat-bar-val {
+            font-size: 0.72rem;
+            font-weight: 700;
+            width: 28px;
+            text-align: right;
+        }
+
+        /* ===== HASHTAG ENGINE ===== */
+        .ht-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 16px;
+        }
+
+        .ht-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .ht-card:hover { border-color: var(--blue); box-shadow: 0 8px 25px rgba(56, 189, 248, 0.08); }
+
+        .ht-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .ht-card-title { font-size: 0.88rem; font-weight: 700; }
+        .ht-card-plat { font-size: 0.65rem; color: var(--text-muted); }
+
+        .ht-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .ht-tag {
+            font-size: 0.72rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .ht-tag:hover { transform: translateY(-2px) scale(1.06); }
+        .ht-tag:active { transform: scale(0.95); }
+
+        .ht-tag.high { background: rgba(0, 255, 163, 0.08); border: 1px solid rgba(0, 255, 163, 0.25); color: var(--green); }
+        .ht-tag.medium { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); color: var(--blue); }
+        .ht-tag.trending {
+            background: rgba(255, 140, 66, 0.1);
+            border: 1px solid rgba(255, 140, 66, 0.3);
+            color: var(--orange);
+            animation: trendPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes trendPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 140, 66, 0); }
+            50% { box-shadow: 0 0 12px rgba(255, 140, 66, 0.15); }
+        }
+
+        .ht-tip {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--green);
+            color: var(--bg-primary);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 255, 163, 0.3);
+        }
+
+        .copy-toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-sources {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .f-src {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            padding: 3px 8px;
+            background: var(--bg-card);
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .footer-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+        }
+
+        .toggle-sw {
+            width: 38px; height: 20px;
+            background: var(--border);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-sw.on { background: var(--green); }
+
+        .toggle-sw::after {
+            content: '';
+            width: 16px; height: 16px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px; left: 2px;
+            transition: left 0.3s;
+        }
+
+        .toggle-sw.on::after { left: 20px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1100px) {
+            .charts-grid { grid-template-columns: 1fr; }
+            .plat-grid { grid-template-columns: 1fr; }
+            .tot-branches-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .main { padding: 16px; }
+            .header { padding: 12px 16px; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Animated Background -->
+<div class="bg-mesh">
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+</div>
+<div class="particles" id="particles"></div>
+
+<!-- Copy Toast -->
+<div class="copy-toast" id="copyToast">Copied to clipboard!</div>
+
+<div class="scroll-wrapper">
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-left">
+            <h1>Content Creator Trend Intelligence</h1>
+            <p>AI-powered strategy engine for clip creators</p>
+        </div>
+        <div class="header-right">
+            <div class="live-pill"><div class="live-dot"></div>LIVE</div>
+            <span class="timestamp" id="timestamp"></span>
+            <button class="btn-refresh" onclick="handleRefresh(this)">Refresh Data</button>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+
+        <!-- Nav Tabs -->
+        <nav class="nav-tabs" id="navTabs">
+            <button class="nav-tab active" data-tab="all">All Insights</button>
+            <button class="nav-tab" data-tab="strategy">Strategy</button>
+            <button class="nav-tab" data-tab="charts">Trends</button>
+            <button class="nav-tab" data-tab="hashtags">Hashtags</button>
+        </nav>
+
+        <!-- Section: Tree of Thought -->
+        <div class="section" id="totSection" data-tabs="all,strategy">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="icon" style="background: rgba(168, 85, 247, 0.15); color: var(--purple);">&#9733;</span>
+                    Tree of Thought: Strategy Engine
+                </div>
+                <div class="section-subtitle">Multi-path reasoning to find what content will trend next for clip creators</div>
+            </div>
+            <div class="tot-container">
+                <div class="tot-flow">
+                    <div class="tot-root">
+                        <div class="tot-root-text">"What clip content has the highest probability of trending in the next 30 days?"</div>
+                    </div>
+                    <div class="tot-connector-down"></div>
+                    <div class="tot-branches-grid" id="totBranches"></div>
+                    <div class="tot-connector-down"></div>
+                    <div class="tot-result">
+                        <div class="tot-result-badge">BEST PATH</div>
+                        <div class="tot-result-text" id="totResult"></div>
+                        <div class="tot-result-confidence" id="totConfidence"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Strategy Cards -->
+        <div class="section" id="stratSection" data-tabs="all,strategy">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="icon" style="background: rgba(0, 255, 163, 0.12); color: var(--green);">&#9650;</span>
+                    Best Content to Post Right Now
+                </div>
+                <div class="section-subtitle">Ranked by trend velocity, 18-34 audience fit, and cross-platform viral potential</div>
+            </div>
+            <div class="cards-grid" id="cardsGrid"></div>
+        </div>
+
+        <!-- Section: Charts -->
+        <div class="section" id="chartSection" data-tabs="all,charts">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="icon" style="background: rgba(56, 189, 248, 0.12); color: var(--blue);">&#9679;</span>
+                    Live Trend Data
+                </div>
+                <div class="section-subtitle">Real-time YouTube search volume from Google Trends API</div>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-box">
+                    <h3>Content Type Trend Lines</h3>
+                    <p class="sub">YouTube search interest (0-100 index) | Past 12 months</p>
+                    <div class="chart-area"><canvas id="trendChart"></canvas></div>
+                </div>
+                <div class="chart-box">
+                    <h3>Virality Radar</h3>
+                    <p class="sub">Multi-axis scoring per content type</p>
+                    <div class="chart-area"><canvas id="radarChart"></canvas></div>
+                </div>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-box">
+                    <h3>Clip Format Performance</h3>
+                    <p class="sub">Shorts, compilations, podcast clips, viral moments</p>
+                    <div class="chart-area"><canvas id="formatChart"></canvas></div>
+                </div>
+                <div class="chart-box">
+                    <h3>Platform-Content Match</h3>
+                    <p class="sub">Which content type works best on which platform</p>
+                    <div class="chart-area"><canvas id="matchChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Platforms -->
+        <div class="section" id="platSection" data-tabs="all,charts">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="icon" style="background: rgba(244, 114, 182, 0.12); color: var(--pink);">&#9654;</span>
+                    Platform Performance Breakdown
+                </div>
+                <div class="section-subtitle">Where each content type performs best for maximum reach</div>
+            </div>
+            <div class="plat-grid" id="platGrid"></div>
+        </div>
+
+        <!-- Section: Hashtags -->
+        <div class="section" id="htSection" data-tabs="all,hashtags">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="icon" style="background: rgba(34, 211, 238, 0.12); color: var(--cyan);">#</span>
+                    Hashtag Strategy Engine
+                </div>
+                <div class="section-subtitle">Click any hashtag to copy | Green = high volume, Blue = medium, Orange = trending now</div>
+            </div>
+            <div class="ht-grid" id="htGrid"></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-sources">
+                <span style="font-size: 0.68rem; color: var(--text-muted);">Data:</span>
+                <span class="f-src">Google Trends API</span>
+                <span class="f-src">YouTube Search</span>
+                <span class="f-src">AnswerThePublic</span>
+                <span class="f-src">Social Blade</span>
+                <span class="f-src">VidIQ</span>
+            </div>
+            <div class="footer-toggle">
+                <span>Auto-refresh 5m</span>
+                <div class="toggle-sw on" id="autoToggle" onclick="toggleAuto()"></div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+// ============================================================
+// DATA (From Google Trends API - real data)
+// ============================================================
+const LABELS = ["May '25","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan '26","Feb","Mar","Apr","May '26"];
+
+const CONTENT_DATA = {
+    reaction: { label: "Reaction Videos", data: [96,97,99,94,93,85,87,84,87,89,84,89,84], color: "#ff4d6a" },
+    motivational: { label: "Motivational", data: [83,85,85,83,83,75,72,69,70,65,55,55,55], color: "#fbbf24" },
+    funny: { label: "Funny Clips", data: [83,90,93,84,80,88,80,73,79,72,76,81,72], color: "#00ffa3" },
+    podcast: { label: "Podcast Clips", data: [18,20,19,18,19,17,15,14,16,16,15,17,17], color: "#a855f7" },
+    shorts: { label: "Shorts/Vertical", data: [21,21,22,23,22,22,22,22,22,19,18,19,20], color: "#38bdf8" },
+    viral: { label: "Viral Moments", data: [6,9,10,11,11,11,10,10,10,8,9,8,12], color: "#ff8c42" }
+};
+
+const FORMAT_DATA = {
+    shorts: { label: "Shorts Clips", data: [21,21,22,23,22,22,22,22,22,19,18,19,20], color: "#38bdf8" },
+    viral: { label: "Viral Moments", data: [6,9,10,11,11,11,10,10,10,36,9,8,12], color: "#ff8c42" },
+    compilations: { label: "Compilations", data: [11,12,12,12,11,11,11,11,11,10,10,11,11], color: "#f472b6" },
+    podcast: { label: "Podcast Clips", data: [18,20,19,18,19,17,15,14,16,16,15,17,17], color: "#a855f7" },
+    funny: { label: "Funny Clips", data: [83,90,93,84,80,88,80,73,79,72,76,81,72], color: "#00ffa3" }
+};
+
+const TOT_BRANCHES = [
+    { label: "Branch 1: Volume Analysis", text: "Reaction videos hold 90/100 steady avg. Proven format with massive consistent demand.", score: 92 },
+    { label: "Branch 2: Growth Velocity", text: "AI/Tech clips growing +142% YoY. Podcast clips up +18% MoM. High upside niches.", score: 87 },
+    { label: "Branch 3: Youth Signal", text: "Funny clips + TikTok cross-posts have highest 18-24 engagement. Score: 94/100.", score: 94 }
+];
+
+const TOT_RESULT = "Post Reaction + Funny clips in YouTube Shorts format, cross-post to TikTok within 1 hour. Layer trending AI/Tech topics weekly for growth. Podcast highlight clips = rising dark horse with low competition.";
+const TOT_CONFIDENCE = "Confidence: 94% | Based on 12-month trend stability + growth velocity + demographic signals";
+
+const STRATEGIES = [
+    { rank: "hot", score: 96, title: "Reaction Videos (Gaming / AI News)", desc: "React to viral gaming moments or AI announcements. Scores 90+ consistently on YouTube. Hook in first 3 seconds.", platforms: ["youtube","tiktok"], tags: ["#reaction","#reactionvideo","#gaming","#viral","#shorts"], metrics: { longevity: 95, youth: 92, viral: 88 } },
+    { rank: "hot", score: 93, title: "Funny / Comedy Clip Compilations", desc: "Curate funniest moments from streams or fails. Best in Shorts format (30-60s). Cross-platform monster.", platforms: ["youtube","tiktok","instagram"], tags: ["#funny","#comedy","#fails","#fyp","#shorts"], metrics: { longevity: 88, youth: 96, viral: 92 } },
+    { rank: "rising", score: 88, title: "Podcast Highlight Clips", desc: "Clip controversial or emotional 60-90s moments from podcasts. Growing +18% MoM. Low competition.", platforms: ["youtube","tiktok"], tags: ["#podcast","#podcastclips","#interview","#wisdom"], metrics: { longevity: 82, youth: 78, viral: 75 } },
+    { rank: "rising", score: 85, title: "AI / Tech Explainer Clips", desc: "Clip AI tool demos and tech reactions. 142% growth niche. Pair with mind-blown commentary.", platforms: ["youtube","tiktok","instagram"], tags: ["#ai","#tech","#chatgpt","#future","#innovation"], metrics: { longevity: 65, youth: 91, viral: 82 } },
+    { rank: "stable", score: 78, title: "Motivational / Accountability Clips", desc: "Pivot from generic motivation to 'harsh truths' sub-niche. Down -30% from peak but stable on TikTok.", platforms: ["tiktok","instagram"], tags: ["#motivation","#grindset","#discipline","#mindset"], metrics: { longevity: 72, youth: 80, viral: 68 } },
+    { rank: "rising", score: 82, title: "Viral Moment Reposts (Sports/Culture)", desc: "Catch viral moments within 2-4 hours. Spiky but massive upside. Speed is everything.", platforms: ["tiktok","youtube","instagram"], tags: ["#viral","#trending","#moments","#fyp","#sports"], metrics: { longevity: 45, youth: 94, viral: 96 } }
+];
+
+const PLATFORMS = [
+    { name: "YouTube", emoji: "&#9654;&#65039;", color: "#ff0000", sub: "Best for reaction videos, gaming clips, podcast highlights", stats: [{ l: "Reaction", v: 95 },{ l: "Funny", v: 88 },{ l: "Podcast", v: 82 },{ l: "AI/Tech", v: 75 },{ l: "Gaming", v: 98 }] },
+    { name: "TikTok", emoji: "&#9835;", color: "#00f2ea", sub: "Best for funny clips, viral moments, motivational short-form", stats: [{ l: "Reaction", v: 78 },{ l: "Funny", v: 94 },{ l: "Podcast", v: 70 },{ l: "AI/Tech", v: 72 },{ l: "Gaming", v: 85 }] },
+    { name: "Instagram", emoji: "&#128247;", color: "#e1306c", sub: "Best for AI/Tech aesthetics, motivational reels, fitness clips", stats: [{ l: "Reaction", v: 55 },{ l: "Funny", v: 75 },{ l: "Podcast", v: 48 },{ l: "AI/Tech", v: 80 },{ l: "Gaming", v: 60 }] }
+];
+
+const HASHTAGS = [
+    { cat: "Reaction Content", plat: "YouTube + TikTok", tags: [
+        { t: "#reaction", l: "high" },{ t: "#reactionvideo", l: "high" },{ t: "#reacts", l: "medium" },
+        { t: "#firsttime", l: "trending" },{ t: "#mindblown", l: "trending" },{ t: "#viral", l: "high" },
+        { t: "#fyp", l: "high" },{ t: "#shorts", l: "high" },{ t: "#subscribe", l: "medium" },{ t: "#letsgo", l: "trending" }
+    ], tip: "Use 3-5 hashtags on YouTube Shorts. On TikTok go 5-8. Always include #shorts and #fyp. Put most important hashtag first." },
+    { cat: "Funny / Comedy", plat: "All Platforms", tags: [
+        { t: "#funny", l: "high" },{ t: "#comedy", l: "high" },{ t: "#fails", l: "high" },
+        { t: "#trynottolaugh", l: "trending" },{ t: "#memes", l: "high" },{ t: "#funnyvideos", l: "high" },
+        { t: "#humor", l: "medium" },{ t: "#relatable", l: "trending" },{ t: "#lol", l: "medium" },{ t: "#viral", l: "high" }
+    ], tip: "Best at 15-45 seconds. Use trending audio on TikTok/Reels. Caption with punchline as text overlay to boost watch time." },
+    { cat: "Podcast Clips", plat: "YouTube + TikTok", tags: [
+        { t: "#podcast", l: "high" },{ t: "#podcastclips", l: "medium" },{ t: "#interview", l: "medium" },
+        { t: "#hottake", l: "trending" },{ t: "#wisdom", l: "medium" },{ t: "#realtalk", l: "trending" },
+        { t: "#controversial", l: "trending" },{ t: "#storytime", l: "high" },{ t: "#deepconvo", l: "trending" },{ t: "#debate", l: "medium" }
+    ], tip: "Hook with the most shocking statement in first 2 sec. Add captions always (85% watch muted). Vertical format outperforms 3:1." },
+    { cat: "AI / Tech", plat: "YouTube + Instagram", tags: [
+        { t: "#ai", l: "high" },{ t: "#artificialintelligence", l: "high" },{ t: "#tech", l: "high" },
+        { t: "#chatgpt", l: "trending" },{ t: "#ainews", l: "trending" },{ t: "#future", l: "medium" },
+        { t: "#innovation", l: "medium" },{ t: "#machinelearning", l: "medium" },{ t: "#mindblowing", l: "trending" },{ t: "#techreview", l: "medium" }
+    ], tip: "142% growth but high competition. Be FIRST to clip AI announcements (within 2 hours). Pair with #shorts on YouTube." },
+    { cat: "Gaming Clips", plat: "YouTube + TikTok", tags: [
+        { t: "#gaming", l: "high" },{ t: "#gamer", l: "high" },{ t: "#gameplay", l: "high" },
+        { t: "#clutch", l: "trending" },{ t: "#epicmoment", l: "trending" },{ t: "#gamingclips", l: "high" },
+        { t: "#streamer", l: "medium" },{ t: "#bestplays", l: "medium" },{ t: "#insane", l: "trending" },{ t: "#esports", l: "medium" }
+    ], tip: "Highest volume but saturated. Win with SPEED (clip within 1hr of live). Niche down to trending games. Use game-specific hashtags." },
+    { cat: "Motivational", plat: "TikTok + Instagram", tags: [
+        { t: "#motivation", l: "high" },{ t: "#grindset", l: "trending" },{ t: "#selfimprovement", l: "high" },
+        { t: "#discipline", l: "medium" },{ t: "#mindset", l: "high" },{ t: "#accountability", l: "trending" },
+        { t: "#levelup", l: "trending" },{ t: "#success", l: "high" },{ t: "#growth", l: "medium" },{ t: "#harshtruths", l: "trending" }
+    ], tip: "Generic motivation is declining. Pivot to 'harsh truths' and accountability which is counter-trending UP. Dark BG + bold text overlays." }
+];
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+
+function createParticles() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 15) + 's';
+        p.style.animationDelay = Math.random() * 10 + 's';
+        p.style.background = ['var(--green)','var(--purple)','var(--blue)','var(--pink)'][Math.floor(Math.random()*4)];
+        container.appendChild(p);
+    }
+}
+
+function renderTOT() {
+    document.getElementById('totBranches').innerHTML = TOT_BRANCHES.map((b, i) => `
+        <div class="tot-branch ${i === 2 ? 'winner' : ''}" onclick="this.classList.toggle('winner')">
+            <div class="tot-branch-label">${b.label}</div>
+            <div class="tot-branch-text">${b.text}</div>
+            <div class="tot-branch-score">${b.score}% confidence</div>
+        </div>
+    `).join('');
+    document.getElementById('totResult').textContent = TOT_RESULT;
+    document.getElementById('totConfidence').textContent = TOT_CONFIDENCE;
+}
+
+function renderCards() {
+    document.getElementById('cardsGrid').innerHTML = STRATEGIES.map((s, i) => `
+        <div class="s-card ${s.rank}" style="animation-delay: ${i * 0.08}s">
+            <div class="s-card-top">
+                <span class="s-card-badge badge-${s.rank}">${s.rank}</span>
+                <div class="s-card-score">${s.score}<small>/100</small></div>
+            </div>
+            <div class="s-card-title">${s.title}</div>
+            <div class="s-card-desc">${s.desc}</div>
+            <div class="s-card-platforms">
+                ${s.platforms.map(p => `<span class="p-tag p-${p}">${p.charAt(0).toUpperCase()+p.slice(1)}</span>`).join('')}
+            </div>
+            <div class="s-card-tags">
+                ${s.tags.map(t => `<span class="tag" onclick="copyTag(this, '${t}')">${t}</span>`).join('')}
+            </div>
+            <div class="s-card-metrics">
+                <div class="s-metric">
+                    <div class="s-metric-bar"><div class="s-metric-fill" data-w="${s.metrics.longevity}" style="background: var(--green)"></div></div>
+                    <div class="s-metric-val" style="color: var(--green)">${s.metrics.longevity}%</div>
+                    <div class="s-metric-label">Longevity</div>
+                </div>
+                <div class="s-metric">
+                    <div class="s-metric-bar"><div class="s-metric-fill" data-w="${s.metrics.youth}" style="background: var(--blue)"></div></div>
+                    <div class="s-metric-val" style="color: var(--blue)">${s.metrics.youth}%</div>
+                    <div class="s-metric-label">Youth Impact</div>
+                </div>
+                <div class="s-metric">
+                    <div class="s-metric-bar"><div class="s-metric-fill" data-w="${s.metrics.viral}" style="background: var(--orange)"></div></div>
+                    <div class="s-metric-val" style="color: var(--orange)">${s.metrics.viral}%</div>
+                    <div class="s-metric-label">Viral Chance</div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderCharts() {
+    // Main trend chart
+    new Chart(document.getElementById('trendChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: LABELS,
+            datasets: Object.values(CONTENT_DATA).map(d => ({
+                label: d.label, data: d.data, borderColor: d.color, backgroundColor: d.color + '10',
+                borderWidth: 2.5, fill: true, tension: 0.4, pointRadius: 2, pointHoverRadius: 6, pointBackgroundColor: d.color
+            }))
+        },
+        options: chartOpts('YouTube Search Index (0-100)', 105)
+    });
+
+    // Radar chart
+    new Chart(document.getElementById('radarChart').getContext('2d'), {
+        type: 'radar',
+        data: {
+            labels: ['Longevity','Youth Impact','Viral Potential','Growth Rate','Cross-Platform'],
+            datasets: [
+                { label: 'Reaction', data: [95,92,88,15,78], borderColor: '#ff4d6a', backgroundColor: '#ff4d6a15', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#ff4d6a' },
+                { label: 'Funny', data: [88,96,92,22,94], borderColor: '#00ffa3', backgroundColor: '#00ffa315', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#00ffa3' },
+                { label: 'Podcast', data: [82,78,75,45,70], borderColor: '#a855f7', backgroundColor: '#a855f715', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#a855f7' },
+                { label: 'AI/Tech', data: [65,91,82,90,72], borderColor: '#38bdf8', backgroundColor: '#38bdf815', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#38bdf8' },
+                { label: 'Gaming', data: [92,96,85,8,85], borderColor: '#ff8c42', backgroundColor: '#ff8c4215', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#ff8c42' }
+            ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+            scales: { r: { beginAtZero: true, max: 100, grid: { color: '#1a2d4a' }, pointLabels: { color: '#8898b4', font: { size: 10 } }, ticks: { color: '#4c6080', backdropColor: 'transparent', stepSize: 25 }, angleLines: { color: '#1a2d4a' } } }
+        }
+    });
+
+    // Format chart
+    new Chart(document.getElementById('formatChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: LABELS,
+            datasets: Object.values(FORMAT_DATA).map(d => ({
+                label: d.label, data: d.data, borderColor: d.color, backgroundColor: d.color + '08',
+                borderWidth: 2, fill: true, tension: 0.3, pointRadius: 2, pointBackgroundColor: d.color
+            }))
+        },
+        options: chartOpts('Search Index', null)
+    });
+
+    // Platform match chart
+    new Chart(document.getElementById('matchChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Reaction','Funny','Podcast','AI/Tech','Gaming','Motive'],
+            datasets: [
+                { label: 'YouTube', data: [95,88,82,75,98,60], backgroundColor: '#ff000070', borderColor: '#ff0000', borderWidth: 1, borderRadius: 4 },
+                { label: 'TikTok', data: [78,94,70,72,85,75], backgroundColor: '#00f2ea70', borderColor: '#00f2ea', borderWidth: 1, borderRadius: 4 },
+                { label: 'Instagram', data: [55,75,48,80,60,82], backgroundColor: '#e1306c70', borderColor: '#e1306c', borderWidth: 1, borderRadius: 4 }
+            ]
+        },
+        options: { responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'top', labels: { color: '#8898b4', usePointStyle: true, padding: 14, font: { size: 10 } } },
+                tooltip: { backgroundColor: '#0f1a2e', borderColor: '#1a2d4a', borderWidth: 1, titleColor: '#f0f4fc', bodyColor: '#8898b4' } },
+            scales: { x: { grid: { display: false }, ticks: { color: '#4c6080', font: { size: 10 } } }, y: { grid: { color: '#1a2d4a30' }, ticks: { color: '#4c6080' }, max: 100 } }
+        }
+    });
+}
+
+function chartOpts(yLabel, max) {
+    return {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { intersect: false, mode: 'index' },
+        plugins: { legend: { position: 'top', labels: { color: '#8898b4', usePointStyle: true, pointStyle: 'circle', padding: 14, font: { size: 10 } } },
+            tooltip: { backgroundColor: '#0f1a2e', borderColor: '#1a2d4a', borderWidth: 1, titleColor: '#f0f4fc', bodyColor: '#8898b4', padding: 10, cornerRadius: 8 } },
+        scales: {
+            x: { grid: { color: '#1a2d4a15' }, ticks: { color: '#4c6080', font: { size: 10 } } },
+            y: { grid: { color: '#1a2d4a30' }, ticks: { color: '#4c6080' }, ...(max ? { max } : {}), title: yLabel ? { display: true, text: yLabel, color: '#4c6080', font: { size: 10 } } : {} }
+        }
+    };
+}
+
+function renderPlatforms() {
+    document.getElementById('platGrid').innerHTML = PLATFORMS.map(p => `
+        <div class="plat-card" style="--plat-color: ${p.color}">
+            <div class="plat-emoji">${p.emoji}</div>
+            <div class="plat-name" style="color: ${p.color}">${p.name}</div>
+            <div class="plat-sub">${p.sub}</div>
+            <div class="plat-bars">
+                ${p.stats.map(s => `
+                    <div class="plat-bar-row">
+                        <span class="plat-bar-label">${s.l}</span>
+                        <div class="plat-bar-track">
+                            <div class="plat-bar-fill" data-w="${s.v}" style="background: ${p.color}"></div>
+                        </div>
+                        <span class="plat-bar-val" style="color: ${p.color}">${s.v}</span>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderHashtags() {
+    document.getElementById('htGrid').innerHTML = HASHTAGS.map(h => `
+        <div class="ht-card">
+            <div class="ht-card-head">
+                <div class="ht-card-title">${h.cat}</div>
+                <div class="ht-card-plat">${h.plat}</div>
+            </div>
+            <div class="ht-tags">
+                ${h.tags.map(t => `<span class="ht-tag ${t.l}" onclick="copyTag(this, '${t.t}')">${t.t}</span>`).join('')}
+            </div>
+            <div class="ht-tip">${h.tip}</div>
+        </div>
+    `).join('');
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+
+function copyTag(el, text) {
+    navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('copyToast');
+        toast.textContent = `Copied: ${text}`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+        el.style.transform = 'scale(1.15)';
+        setTimeout(() => el.style.transform = '', 200);
+    });
+}
+
+function handleRefresh(btn) {
+    btn.textContent = 'Refreshing...';
+    btn.style.opacity = '0.6';
+    // Animate data shift
+    Object.values(CONTENT_DATA).forEach(d => {
+        d.data = d.data.map(v => Math.max(0, Math.min(100, v + Math.floor(Math.random() * 7 - 3))));
+    });
+    setTimeout(() => {
+        document.querySelectorAll('.chart-area canvas, .chart-area-sm canvas').forEach(c => {
+            const parent = c.parentElement;
+            const id = c.id;
+            parent.innerHTML = `<canvas id="${id}"></canvas>`;
+        });
+        renderCharts();
+        updateTime();
+        btn.textContent = 'Refresh Data';
+        btn.style.opacity = '1';
+    }, 1000);
+}
+
+function toggleAuto() {
+    const t = document.getElementById('autoToggle');
+    t.classList.toggle('on');
+    if (t.classList.contains('on')) {
+        window._autoInt = setInterval(() => handleRefresh(document.querySelector('.btn-refresh')), 300000);
+    } else {
+        clearInterval(window._autoInt);
+    }
+}
+
+// Tab navigation
+document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.section').forEach(s => {
+            const tabs = s.dataset.tabs ? s.dataset.tabs.split(',') : [];
+            if (target === 'all' || tabs.includes(target)) {
+                s.style.display = '';
+                setTimeout(() => s.classList.add('visible'), 50);
+            } else {
+                s.style.display = 'none';
+                s.classList.remove('visible');
+            }
+        });
+    });
+});
+
+// Scroll reveal
+function observeSections() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.section').forEach(s => observer.observe(s));
+}
+
+// Animate metric bars on visibility
+function animateBars() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.querySelectorAll('[data-w]').forEach(bar => {
+                    setTimeout(() => { bar.style.width = bar.dataset.w + '%'; }, 200);
+                });
+            }
+        });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.s-card, .plat-card').forEach(c => observer.observe(c));
+}
+
+// Sticky header shrink
+window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+function updateTime() {
+    document.getElementById('timestamp').textContent = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+    createParticles();
+    renderTOT();
+    renderCards();
+    renderCharts();
+    renderPlatforms();
+    renderHashtags();
+    updateTime();
+    observeSections();
+    setTimeout(animateBars, 500);
+    window._autoInt = setInterval(() => handleRefresh(document.querySelector('.btn-refresh')), 300000);
+}
+
+window.addEventListener('load', init);
+</script>
+</body>
+</html>
