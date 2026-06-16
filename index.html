@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI-Powered Product Intel Engine — Analyze product ideas, get AI-powered scoring, generate step-by-step creation plans, and browse the global AI model registry.">
+  <title>Intel Engine — AI-Powered Product Analysis</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    /* Ambient background effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 100%, rgba(52, 211, 153, 0.02) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .app { position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- ======== SIDEBAR ======== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">⚡</div>
+        <div>
+          <div class="sidebar-logo-text">Intel Engine</div>
+          <div class="sidebar-logo-sub">AI Product Analysis</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Main</div>
+
+        <div class="nav-item active" data-route="dashboard" id="nav-dashboard">
+          <span class="nav-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </span>
+          Dashboard
+        </div>
+
+        <div class="nav-item" data-route="analyze" id="nav-analyze">
+          <span class="nav-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </span>
+          Analyze
+        </div>
+
+        <div class="nav-item" data-route="registry" id="nav-registry">
+          <span class="nav-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </span>
+          AI Registry
+        </div>
+
+        <div class="sidebar-section-title">Outputs</div>
+
+        <div class="nav-item" data-route="plans" id="nav-plans">
+          <span class="nav-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </span>
+          Plans
+        </div>
+
+        <div class="nav-item" data-route="export" id="nav-export">
+          <span class="nav-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </span>
+          Export
+        </div>
+
+        <div class="sidebar-section-title">Earn</div>
+
+        <div class="nav-item" data-route="freelancing" id="nav-freelancing">
+          <span class="nav-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </span>
+          Freelancing Hub
+        </div>
+
+        <div class="sidebar-section-title">Connect</div>
+
+        <div class="nav-item" data-route="extensions" id="nav-extensions">
+          <span class="nav-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          Extensions
+          <span class="mcp-protocol-badge mcp-badge-protocol" style="margin-left:auto;font-size:9px;padding:2px 8px">MCP</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="flex items-center gap-2 text-xs text-muted px-3">
+          <span>v1.0</span>
+          <span>•</span>
+          <span>Intel Engine</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ======== MAIN CONTENT ======== -->
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <header class="page-header">
+        <div class="page-header-left">
+          <button class="btn btn-icon btn-mobile-menu" id="btn-mobile-menu" aria-label="Toggle menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h1 id="page-title" class="page-title">Dashboard</h1>
+          <p id="page-subtitle" class="page-subtitle">Overview of your product analyses and insights</p>
+        </div>
+        <div class="page-header-right">
+          <button class="btn btn-primary" onclick="Router.navigate('#analyze')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Analysis
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content">
+
+        <!-- === DASHBOARD VIEW === -->
+        <div class="view active" id="view-dashboard">
+          <div class="dashboard-stats">
+            <div class="card stat-card anim-fade-in-up anim-delay-1">
+              <span class="stat-label">Total Analyses</span>
+              <span class="stat-value" id="stat-analyses">0</span>
+            </div>
+            <div class="card stat-card anim-fade-in-up anim-delay-2">
+              <span class="stat-label">Plans Generated</span>
+              <span class="stat-value" id="stat-plans">0</span>
+            </div>
+            <div class="card stat-card anim-fade-in-up anim-delay-3">
+              <span class="stat-label">AI Models</span>
+              <span class="stat-value" id="stat-models">0</span>
+            </div>
+            <div class="card stat-card anim-fade-in-up anim-delay-4">
+              <span class="stat-label">Avg. Score</span>
+              <span class="stat-value" id="stat-avg-score">—</span>
+            </div>
+          </div>
+
+          <div class="dashboard-charts" id="dashboard-charts-area">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="dashboard-bottom">
+            <div id="dashboard-recent"><!-- Populated by JS --></div>
+            <div id="dashboard-models"><!-- Populated by JS --></div>
+          </div>
+        </div>
+
+        <!-- === ANALYZE VIEW === -->
+        <div class="view" id="view-analyze">
+          <div id="analyze-content"><!-- Populated by JS --></div>
+        </div>
+
+        <!-- === REGISTRY VIEW === -->
+        <div class="view" id="view-registry">
+          <div id="registry-content"><!-- Populated by JS --></div>
+        </div>
+
+        <!-- === PLANS VIEW === -->
+        <div class="view" id="view-plans">
+          <div id="plans-content"><!-- Populated by JS --></div>
+        </div>
+
+        <!-- === EXPORT VIEW === -->
+        <div class="view" id="view-export">
+          <div id="export-content"><!-- Populated by JS --></div>
+        </div>
+
+        <!-- === FREELANCING HUB VIEW === -->
+        <div class="view" id="view-freelancing">
+          <div id="freelancing-content"><!-- Populated by JS --></div>
+        </div>
+
+        <!-- === EXTENSIONS VIEW === -->
+        <div class="view" id="view-extensions">
+          <div id="extensions-content"><!-- Populated by JS --></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts (order matters) -->
+  <script src="js/storage.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/scoring-engine.js"></script>
+  <script src="js/thinking-engine.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/plan-generator.js"></script>
+  <script src="js/prompt-optimizer.js"></script>
+  <script src="js/ai-registry.js"></script>
+  <script src="js/freelancing-hub.js"></script>
+  <script src="js/mcp-extension.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

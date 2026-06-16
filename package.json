@@ -1,0 +1,16 @@
+{
+  "name": "ai-product-intel-engine",
+  "version": "2.0.0",
+  "description": "AI-Powered Product Intel Engine with Vertex AI integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.8.0",
+    "express": "^4.21.0",
+    "google-auth-library": "^9.14.0",
+    "uuid": "^14.0.0"
+  }
+}
