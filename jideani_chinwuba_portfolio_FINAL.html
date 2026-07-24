@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jideani Chinwuba — AI Automation Specialist, Python Developer & Data Intelligence Engineer. Available for freelance work on Upwork.">
+<title>Jideani Chinwuba | AI Automation Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04080F;--bg1:#08111E;--bg2:#0C1828;--bg3:#111F35;
+  --card:rgba(12,24,40,0.8);
+  --c:#00DFC0;--c-dim:rgba(0,223,192,0.12);--c-glow:rgba(0,223,192,0.25);
+  --p:#A855F7;--p-dim:rgba(168,85,247,0.12);
+  --a:#F59E0B;--a-dim:rgba(245,158,11,0.12);
+  --r:#FF4757;
+  --t1:#EEF6FF;--t2:#7E92B0;--t3:#3A5070;
+  --bdr:rgba(255,255,255,0.06);
+  --shadow:0 30px 80px rgba(0,0,0,0.5);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--t1);overflow-x:hidden;line-height:1.6}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--c);border-radius:2px}
+
+/* NOISE */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;width:100%;z-index:800;padding:20px 64px;display:flex;justify-content:space-between;align-items:center;transition:.3s}
+nav.on{background:rgba(4,8,15,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr);padding:14px 64px}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;letter-spacing:-0.5px;color:var(--t1)}
+.logo em{color:var(--c);font-style:normal}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{color:var(--t2);text-decoration:none;font-size:.87rem;font-weight:500;transition:color .2s;letter-spacing:.2px}
+.nav-links a:hover{color:var(--c)}
+.nav-hire{background:var(--c);color:var(--bg)!important;padding:9px 22px;border-radius:7px;font-weight:600!important;font-size:.83rem!important;transition:all .2s!important}
+.nav-hire:hover{background:#00FDD8!important;box-shadow:0 0 24px var(--c-glow)!important;color:var(--bg)!important}
+
+/* ─── HERO ─── */
+#hero{min-height:100vh;display:flex;align-items:center;padding:120px 64px 80px;position:relative;overflow:hidden}
+#nc{position:absolute;inset:0;z-index:0}
+.h-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(var(--c-dim) 1px,transparent 1px),linear-gradient(90deg,var(--c-dim) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 75% 70% at 30% 50%,black 0%,transparent 100%)}
+.h-glow{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(0,223,192,0.08) 0%,transparent 70%);top:20%;left:-100px;z-index:1;pointer-events:none}
+.h-glow2{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,0.06) 0%,transparent 70%);top:50%;right:200px;z-index:1;pointer-events:none}
+
+.hero-wrap{position:relative;z-index:10;display:grid;grid-template-columns:1fr 320px;gap:80px;width:100%;max-width:1200px;align-items:center}
+
+/* Hero Left */
+.hero-left{}
+.badge{display:inline-flex;align-items:center;gap:9px;background:rgba(0,223,192,0.07);border:1px solid rgba(0,223,192,0.22);padding:8px 18px;border-radius:100px;font-size:.78rem;color:var(--c);font-weight:500;margin-bottom:28px;letter-spacing:.4px}
+.bdot{width:7px;height:7px;background:var(--c);border-radius:50%;animation:bpulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes bpulse{0%,100%{box-shadow:0 0 0 0 rgba(0,223,192,.5)}50%{box-shadow:0 0 0 8px rgba(0,223,192,0)}}
+
+.hero-name{font-family:'Syne',sans-serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:800;line-height:1.0;letter-spacing:-2.5px;margin-bottom:18px}
+.hero-name .line2{color:var(--c);text-shadow:0 0 50px rgba(0,223,192,.45),0 0 100px rgba(0,223,192,.15)}
+
+.hero-role{font-family:'Fira Code',monospace;font-size:1rem;color:var(--t2);margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.hero-role::before{content:'~/';color:var(--c);opacity:.7}
+#tr{color:var(--t1);font-weight:500}
+.cur{display:inline-block;width:2px;height:1em;background:var(--c);vertical-align:middle;margin-left:1px;animation:cur .9s step-end infinite}
+@keyframes cur{50%{opacity:0}}
+
+.hero-bio{font-size:1.02rem;line-height:1.75;color:var(--t2);max-width:560px;margin-bottom:40px}
+.hero-bio strong{color:var(--t1);font-weight:500}
+
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px}
+.btn-p{display:inline-flex;align-items:center;gap:8px;background:var(--c);color:var(--bg);padding:13px 30px;border-radius:8px;font-weight:600;font-size:.95rem;text-decoration:none;transition:all .25s;letter-spacing:.2px}
+.btn-p:hover{background:#00FDD8;box-shadow:0 10px 36px rgba(0,223,192,.3);transform:translateY(-2px)}
+.btn-s{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--t1);padding:12px 28px;border-radius:8px;font-weight:500;font-size:.95rem;text-decoration:none;border:1px solid var(--bdr);transition:all .25s}
+.btn-s:hover{border-color:var(--c);color:var(--c);background:var(--c-dim)}
+
+.hero-nums{display:flex;gap:44px}
+.num-n{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1;color:var(--t1)}
+.num-n em{color:var(--c);font-style:normal}
+.num-l{font-size:.72rem;color:var(--t3);margin-top:5px;text-transform:uppercase;letter-spacing:.8px}
+
+/* Hero Right Card */
+.hero-card{background:var(--card);border:1px solid var(--bdr);backdrop-filter:blur(24px);border-radius:18px;padding:26px;position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--c),var(--p),var(--c));border-radius:18px 18px 0 0}
+.hc-top{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.av{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--c),var(--p));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:white;flex-shrink:0}
+.av-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.93rem}
+.av-tag{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+.sk-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.sk-lbl{font-size:.8rem;color:var(--t2);font-family:'Fira Code',monospace}
+.sk-trk{width:120px;height:3px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.sk-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--c),var(--p));width:0;transition:width 1.6s cubic-bezier(.4,0,.2,1)}
+
+.hc-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px solid var(--bdr)}
+.chip{background:var(--bg3);border:1px solid var(--bdr);padding:3px 9px;border-radius:100px;font-size:.68rem;color:var(--t2);font-family:'Fira Code',monospace}
+
+/* ─── SHARED SECTION ─── */
+.sec{padding:100px 64px;position:relative}
+.sec-alt{background:var(--bg1)}
+.stag{display:flex;align-items:center;gap:10px;font-family:'Fira Code',monospace;font-size:.72rem;color:var(--c);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.stag::before{content:'';width:22px;height:1px;background:var(--c)}
+.stit{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:800;letter-spacing:-1.5px;line-height:1.08;margin-bottom:14px}
+.ssub{color:var(--t2);font-size:1rem;max-width:520px;line-height:1.72}
+
+/* Reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.rv.in{opacity:1;transform:translateY(0)}
+
+/* ─── ABOUT ─── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;margin-top:60px;align-items:start}
+
+.term{background:var(--bg);border:1px solid var(--bdr);border-radius:14px;overflow:hidden}
+.term-hdr{background:var(--bg2);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bdr)}
+.td{width:11px;height:11px;border-radius:50%}
+.term-path{font-size:.73rem;color:var(--t3);font-family:'Fira Code',monospace;margin-left:8px}
+.term-body{padding:22px 24px;font-family:'Fira Code',monospace;font-size:.81rem;line-height:2;color:var(--t2)}
+.tp{color:var(--c)}.tk{color:var(--p)}.tv{color:var(--a)}.ts{color:#7ECFFF}.tc{color:var(--t3)}.tx{color:var(--t1)}
+
+.about-cards{}
+.ac{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:24px;margin-bottom:14px;transition:all .3s;position:relative;overflow:hidden}
+.ac::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--c),var(--p));transform:scaleY(0);transform-origin:top;transition:transform .3s;border-radius:0 0 0 14px}
+.ac:hover{border-color:rgba(0,223,192,.25);transform:translateX(4px)}
+.ac:hover::after{transform:scaleY(1)}
+.ac-ico{font-size:1.4rem;margin-bottom:10px}
+.ac h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:7px}
+.ac p{font-size:.85rem;color:var(--t2);line-height:1.65}
+
+/* ─── SKILLS ─── */
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.skc{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:26px;transition:all .3s;position:relative;overflow:hidden}
+.skc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--c),var(--p));transform:scaleX(0);transition:transform .35s;transform-origin:left}
+.skc:hover{border-color:rgba(0,223,192,.22);transform:translateY(-5px);box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.skc:hover::after{transform:scaleX(1)}
+.sk-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:1.15rem}
+.skc h3{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:10px}
+.sk-list{list-style:none}
+.sk-list li{font-size:.81rem;color:var(--t2);padding:4px 0;display:flex;align-items:center;gap:8px}
+.sk-list li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--c);flex-shrink:0}
+
+/* ─── PROJECTS ─── */
+.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.prc{background:var(--card);border:1px solid var(--bdr);border-radius:18px;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.prc:hover{border-color:rgba(0,223,192,.28);transform:translateY(-7px);box-shadow:0 32px 80px rgba(0,0,0,.5)}
+
+/* CSS-Art Project Previews */
+.prev{height:190px;position:relative;overflow:hidden;background:#060D1A}
+.pvd{width:100%;height:100%;padding:12px;display:flex;flex-direction:column;gap:7px}
+.pvh{display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.pvdot{width:7px;height:7px;border-radius:50%}
+.pvb{height:6px;flex:1;border-radius:3px}
+.pvcnt{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.pvch{background:rgba(255,255,255,.04);border-radius:6px;display:flex;align-items:flex-end;padding:5px;gap:3px}
+.pvbar{flex:1;border-radius:2px}
+.pvbot{display:grid;grid-template-columns:2fr 1fr;gap:6px}
+.pvline{background:rgba(255,255,255,.04);border-radius:6px;height:38px;position:relative;overflow:hidden}
+.pvline::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,223,192,.06) 100%)}
+.pvline svg{position:absolute;inset:0;width:100%;height:100%}
+.pvcirc{background:rgba(255,255,255,.04);border-radius:6px;height:38px;display:flex;align-items:center;justify-content:center}
+.ring{width:22px;height:22px;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--p);border-right-color:var(--c);animation:spin 2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Preview 2 specific */
+.pvr2{background:#07101F}
+.tab-row{display:flex;gap:4px}
+.tabc{padding:2px 8px;border-radius:4px;font-size:.52rem;font-family:'Fira Code',monospace}
+.tabc.active{background:rgba(0,223,192,.15);color:var(--c)}
+.tabc.off{background:rgba(255,255,255,.04);color:var(--t3)}
+.tot-box{background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.2);border-radius:5px;padding:6px}
+.tot-lbl{font-size:.5rem;color:var(--p);font-family:'Fira Code',monospace;margin-bottom:3px}
+.tot-bar{height:3px;border-radius:2px;margin-bottom:2px}
+.sc-box{background:rgba(0,223,192,.06);border:1px solid rgba(0,223,192,.15);border-radius:5px;padding:6px;display:flex;flex-direction:column;justify-content:center}
+.sc-lbl{font-size:.5rem;color:var(--c);font-family:'Fira Code',monospace;margin-bottom:3px}
+.sc-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--c);line-height:1}
+.ht-row{display:flex;gap:3px;flex-wrap:wrap}
+.ht{border-radius:3px;padding:1px 4px;font-size:.44rem;font-family:'Fira Code',monospace}
+
+/* Preview 3 specific */
+.pvr3{background:#070D15}
+.ni-row{background:rgba(245,158,11,.07);border-left:2px solid var(--a);border-radius:0 5px 5px 0;padding:5px}
+.ni-lbl{font-size:.5rem;color:var(--a);font-family:'Fira Code',monospace}
+.ni-bar{height:2px;border-radius:1px;margin-top:3px}
+.ni-row2{background:rgba(0,223,192,.07);border-left:2px solid var(--c);border-radius:0 5px 5px 0;padding:5px}
+.ni-lbl2{font-size:.5rem;color:var(--c);font-family:'Fira Code',monospace}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-d{height:14px;border-radius:2px}
+
+/* Project body */
+.pr-body{padding:22px;flex:1;display:flex;flex-direction:column}
+.pr-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.ptag{padding:3px 9px;border-radius:100px;font-size:.68rem;font-family:'Fira Code',monospace;border:1px solid;letter-spacing:.2px}
+.tc_{color:var(--c);border-color:rgba(0,223,192,.3);background:rgba(0,223,192,.05)}
+.tp_{color:var(--p);border-color:rgba(168,85,247,.3);background:rgba(168,85,247,.05)}
+.ta_{color:var(--a);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.05)}
+
+.pr-num{font-size:.68rem;font-family:'Fira Code',monospace;color:var(--t3);margin-bottom:7px}
+.pr-ttl{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:9px;line-height:1.3}
+.pr-desc{font-size:.84rem;color:var(--t2);line-height:1.65;flex:1;margin-bottom:18px}
+.pr-lnk{display:flex;gap:9px}
+.plb{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;border-radius:8px;font-size:.79rem;font-weight:500;text-decoration:none;border:1px solid var(--bdr);color:var(--t2);transition:all .2s;cursor:pointer}
+.plb.pp{background:var(--c-dim);border-color:rgba(0,223,192,.3);color:var(--c)}
+.plb:hover{border-color:var(--c);color:var(--c);background:var(--c-dim)}
+
+/* ─── CERTIFICATIONS ─── */
+.cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:56px}
+.certc{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:26px;display:flex;gap:18px;align-items:flex-start;transition:all .3s}
+.certc:hover{border-color:rgba(0,223,192,.25);transform:translateY(-4px);box-shadow:var(--shadow)}
+.cert-ico{width:62px;height:62px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.7rem}
+.cert-org{font-size:.72rem;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.cert-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.97rem;margin-bottom:6px}
+.cert-dt{font-size:.78rem;color:var(--c);font-family:'Fira Code',monospace}
+.cert-id{font-size:.68rem;color:var(--t3);margin-top:3px;font-family:'Fira Code',monospace}
+.vbadge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,223,192,.08);border:1px solid rgba(0,223,192,.2);padding:3px 9px;border-radius:100px;font-size:.67rem;color:var(--c);margin-top:8px}
+.ipbadge{display:inline-flex;align-items:center;gap:4px;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);padding:3px 9px;border-radius:100px;font-size:.67rem;color:var(--p);margin-top:8px}
+
+/* ─── SERVICES ─── */
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px}
+.svcc{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:26px 20px;transition:all .3s}
+.svcc:hover{border-color:rgba(0,223,192,.25);transform:translateY(-5px);box-shadow:0 22px 60px rgba(0,0,0,.35)}
+.svc-ico{font-size:1.7rem;margin-bottom:14px}
+.svcc h3{font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;margin-bottom:9px}
+.svcc p{font-size:.82rem;color:var(--t2);line-height:1.62}
+
+/* ─── CTA ─── */
+#cta{text-align:center;padding:120px 64px;position:relative;overflow:hidden}
+#cta::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(0,223,192,.05),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+#cta::after{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(168,85,247,.04),transparent 70%);top:20%;right:10%;pointer-events:none}
+.cta-ttl{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;letter-spacing:-2px;line-height:1.08;margin-bottom:18px}
+.cta-ttl em{color:var(--c);font-style:normal;text-shadow:0 0 40px rgba(0,223,192,.35)}
+.cta-sub{color:var(--t2);font-size:1rem;max-width:480px;margin:0 auto 42px;line-height:1.72}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ─── FOOTER ─── */
+footer{padding:36px 64px;border-top:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center}
+.fc{font-size:.82rem;color:var(--t3)}
+.fl{display:flex;gap:22px}
+.fl a{font-size:.82rem;color:var(--t3);text-decoration:none;transition:color .2s}
+.fl a:hover{color:var(--c)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  .hero-wrap{grid-template-columns:1fr;gap:40px}
+  .hero-card{max-width:320px}
+  .pr-grid,.sk-grid{grid-template-columns:1fr 1fr}
+  .svc-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav,nav.on{padding:14px 24px}
+  .nav-links{display:none}
+  .sec{padding:72px 24px}
+  #hero{padding:100px 24px 72px}
+  .hero-wrap{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr;gap:36px}
+  .pr-grid{grid-template-columns:1fr}
+  .sk-grid{grid-template-columns:1fr}
+  .cert-grid{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:1fr}
+  .hero-nums{gap:24px}
+  footer{flex-direction:column;gap:14px;text-align:center}
+  .hero-card{display:none}
+}
+</style>
+    <meta property="og:title" content="Jideani Chinwuba | AI Automation Specialist">
+    <meta property="og:description" content="AI Automation Specialist & Python Developer. Building intelligent dashboards, automation pipelines, and data tools.">
+    <meta property="og:url" content="https://testuser.github.io/live-projects/jideani_chinwuba_portfolio_FINAL.html">
+    <meta name="theme-color" content="#00DFC0">
+</head>
+<body>
+
+<!-- CANVAS -->
+<canvas id="nc"></canvas>
+
+<!-- NAV -->
+<nav id="nb">
+  <div class="logo">Jideani<em>.</em></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="https://www.upwork.com/freelancers/~TEST" target="_blank" class="nav-hire">Hire Me ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="h-grid"></div>
+  <div class="h-glow"></div>
+  <div class="h-glow2"></div>
+
+  <div class="hero-wrap">
+    <!-- Left -->
+    <div class="hero-left">
+      <div class="badge"><div class="bdot"></div> Available for Freelance Work</div>
+
+      <h1 class="hero-name">
+        Jideani<br>
+        <span class="line2">Chinwuba</span>
+      </h1>
+
+      <div class="hero-role">
+        <span id="tr"></span><span class="cur"></span>
+      </div>
+
+      <p class="hero-bio">
+        18-year-old <strong>AI Automation Specialist & Python Developer</strong> based in Lagos, Nigeria. I build intelligent data systems, automation pipelines, and analytics dashboards — delivering production-quality outputs for clients worldwide.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-p">↓ View My Work</a>
+        <a href="https://www.upwork.com/freelancers/~TEST" target="_blank" class="btn-s">Upwork Profile →</a>
+      </div>
+
+      <div class="hero-nums">
+        <div>
+          <div class="num-n"><span class="cnt" data-t="3">0</span><em>+</em></div>
+          <div class="num-l">Live Projects</div>
+        </div>
+        <div>
+          <div class="num-n"><span class="cnt" data-t="10">0</span><em>+</em></div>
+          <div class="num-l">Tech Tools</div>
+        </div>
+        <div>
+          <div class="num-n"><span class="cnt" data-t="1">0</span></div>
+          <div class="num-l">Cisco Cert</div>
+        </div>
+        <div>
+          <div class="num-n" style="color:var(--c)">∞</div>
+          <div class="num-l">Drive to Build</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Floating Card -->
+    <div class="hero-card rv">
+      <div class="hc-top">
+        <div class="av">JC</div>
+        <div>
+          <div class="av-name">Jideani Chinwuba</div>
+          <div class="av-tag">AI Specialist · Python Dev · Lagos 🇳🇬</div>
+        </div>
+      </div>
+
+      <div class="sk-row">
+        <span class="sk-lbl">python</span>
+        <div class="sk-trk"><div class="sk-bar" data-w="85"></div></div>
+      </div>
+      <div class="sk-row">
+        <span class="sk-lbl">AI/LLM</span>
+        <div class="sk-trk"><div class="sk-bar" data-w="80"></div></div>
+      </div>
+      <div class="sk-row">
+        <span class="sk-lbl">JS/HTML</span>
+        <div class="sk-trk"><div class="sk-bar" data-w="83"></div></div>
+      </div>
+      <div class="sk-row">
+        <span class="sk-lbl">data viz</span>
+        <div class="sk-trk"><div class="sk-bar" data-w="88"></div></div>
+      </div>
+      <div class="sk-row">
+        <span class="sk-lbl">automation</span>
+        <div class="sk-trk"><div class="sk-bar" data-w="78"></div></div>
+      </div>
+
+      <div class="hc-chips">
+        <span class="chip">python</span>
+        <span class="chip">chart.js</span>
+        <span class="chip">AI/ML</span>
+        <span class="chip">html5</span>
+        <span class="chip">automation</span>
+        <span class="chip">cisco</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec sec-alt">
+  <div class="rv">
+    <div class="stag">01 · About</div>
+    <h2 class="stit">Who I Am</h2>
+    <p class="ssub">Turning ideas into intelligent, automated systems — one line of code at a time.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="rv">
+      <div class="term">
+        <div class="term-hdr">
+          <div class="td" style="background:#FF5F57"></div>
+          <div class="td" style="background:#FFBD2E"></div>
+          <div class="td" style="background:#28C840"></div>
+          <span class="term-path">~/jideani/profile.json</span>
+        </div>
+        <div class="term-body">
+          <div><span class="tp">$</span> <span class="tx">cat profile.json</span></div><br>
+          <div>{</div>
+          <div>&nbsp;&nbsp;<span class="tk">"name"</span>: <span class="ts">"Jideani Chinwuba"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="tk">"age"</span>: <span class="tv">18</span>,</div>
+          <div>&nbsp;&nbsp;<span class="tk">"location"</span>: <span class="ts">"Lagos, Nigeria 🇳🇬"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="tk">"role"</span>: <span class="ts">"AI Automation Specialist"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="tk">"stack"</span>: [</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ts">"Python"</span>, <span class="ts">"JavaScript"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ts">"HTML5/CSS3"</span>, <span class="ts">"Chart.js"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ts">"AI/LLM Integration"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ts">"Data Visualization"</span></div>
+          <div>&nbsp;&nbsp;],</div>
+          <div>&nbsp;&nbsp;<span class="tk">"focus"</span>: <span class="ts">"Incoming CS &amp; AI"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="tk">"cert"</span>: <span class="ts">"Cisco Cybersecurity"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="tk">"available"</span>: <span class="tv">true</span></div>
+          <div>}</div><br>
+          <div><span class="tc">// Open to freelance projects.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-cards rv" style="transition-delay:.2s">
+      <div class="ac">
+        <div class="ac-ico">⚡</div>
+        <h4>What Drives Me</h4>
+        <p>I'm obsessed with building systems that think. Whether it's an automation pipeline that reclaims 10 hours a week or a data dashboard that turns raw noise into actionable signal — I focus on real, measurable outcomes.</p>
+      </div>
+      <div class="ac">
+        <div class="ac-ico">🎯</div>
+        <h4>My Edge</h4>
+        <p>I combine technical depth with strategic thinking. My dashboards aren't just visual — they have scoring algorithms, multi-branch reasoning, and real platform data logic built in. I understand the problem behind the code.</p>
+      </div>
+      <div class="ac">
+        <div class="ac-ico">🚀</div>
+        <h4>Where I'm Going</h4>
+        <p>Incoming Computer Science & AI student. Every production tool I build today is laying the foundation for the engineer I'm becoming. I'm early in the career arc — but the trajectory is steep and intentional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="sec">
+  <div class="rv">
+    <div class="stag">02 · Skills</div>
+    <h2 class="stit">Technical Arsenal</h2>
+    <p class="ssub">A toolkit built through hands-on project work and continuous self-directed learning.</p>
+  </div>
+
+  <div class="sk-grid">
+    <div class="skc rv" style="transition-delay:.08s">
+      <div class="sk-ico" style="background:rgba(0,223,192,.1)">🐍</div>
+      <h3>Python Development</h3>
+      <ul class="sk-list">
+        <li>Automation & scripting pipelines</li>
+        <li>PDF generation & document processing</li>
+        <li>Data processing & ETL workflows</li>
+        <li>API integration & web scraping</li>
+        <li>Bot development</li>
+      </ul>
+    </div>
+    <div class="skc rv" style="transition-delay:.14s">
+      <div class="sk-ico" style="background:rgba(168,85,247,.1)">🤖</div>
+      <h3>AI & LLM Automation</h3>
+      <ul class="sk-list">
+        <li>Prompt engineering & LLM integration</li>
+        <li>AI-powered content strategy systems</li>
+        <li>Intelligent workflow automation</li>
+        <li>Tree-of-Thought reasoning systems</li>
+        <li>N8N / Zapier pipeline design</li>
+      </ul>
+    </div>
+    <div class="skc rv" style="transition-delay:.2s">
+      <div class="sk-ico" style="background:rgba(59,158,255,.1)">📊</div>
+      <h3>Data & Dashboards</h3>
+      <ul class="sk-list">
+        <li>Chart.js real-time visualizations</li>
+        <li>Trend scoring & composite algorithms</li>
+        <li>Multi-platform data aggregation</li>
+        <li>KPI intelligence dashboards</li>
+        <li>Radar / virality analysis systems</li>
+      </ul>
+    </div>
+    <div class="skc rv" style="transition-delay:.26s">
+      <div class="sk-ico" style="background:rgba(245,158,11,.1)">🌐</div>
+      <h3>Frontend Engineering</h3>
+      <ul class="sk-list">
+        <li>HTML5 / CSS3 / JavaScript (ES6+)</li>
+        <li>Canvas API animations</li>
+        <li>Dark-mode SaaS interfaces</li>
+        <li>Scroll-triggered UX animations</li>
+        <li>Responsive dashboard layouts</li>
+      </ul>
+    </div>
+    <div class="skc rv" style="transition-delay:.32s">
+      <div class="sk-ico" style="background:rgba(255,71,87,.1)">🔐</div>
+      <h3>Cybersecurity</h3>
+      <ul class="sk-list">
+        <li>Network security fundamentals</li>
+        <li>Threat identification & prevention</li>
+        <li>Security-conscious development</li>
+        <li>Cisco Networking Academy certified</li>
+        <li>Vulnerability awareness practices</li>
+      </ul>
+    </div>
+    <div class="skc rv" style="transition-delay:.38s">
+      <div class="sk-ico" style="background:rgba(0,223,192,.1)">📈</div>
+      <h3>Content Intelligence</h3>
+      <ul class="sk-list">
+        <li>Niche trend research & scoring</li>
+        <li>YouTube algorithm & SEO strategy</li>
+        <li>Platform analytics (YT/IG/TikTok)</li>
+        <li>Virality prediction models</li>
+        <li>Monetization path analysis</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="sec sec-alt">
+  <div class="rv">
+    <div class="stag">03 · Projects</div>
+    <h2 class="stit">Featured Work</h2>
+    <p class="ssub">Production-ready tools built to solve real problems. Each one is evidence of technical depth and design intent.</p>
+  </div>
+
+  <div class="pr-grid">
+    <!-- P1 -->
+    <div class="prc rv" style="transition-delay:.1s">
+      <div class="prev">
+        <div class="pvd">
+          <div class="pvh">
+            <div class="pvdot" style="background:#FF5F57"></div>
+            <div class="pvdot" style="background:#FFBD2E"></div>
+            <div class="pvdot" style="background:#28C840"></div>
+            <div class="pvb" style="background:rgba(255,255,255,.05);max-width:90px"></div>
+            <div class="pvb" style="background:rgba(255,255,255,.04);max-width:55px"></div>
+          </div>
+          <div class="pvcnt">
+            <div class="pvch">
+              <div class="pvbar" style="height:68%;background:#00DFC0;opacity:.8"></div>
+              <div class="pvbar" style="height:45%;background:#A855F7;opacity:.8"></div>
+              <div class="pvbar" style="height:85%;background:#00DFC0;opacity:.85"></div>
+              <div class="pvbar" style="height:55%;background:#F59E0B;opacity:.8"></div>
+              <div class="pvbar" style="height:95%;background:#00DFC0;opacity:.9"></div>
+            </div>
+            <div class="pvch">
+              <div class="pvbar" style="height:40%;background:#3B9EFF;opacity:.7"></div>
+              <div class="pvbar" style="height:75%;background:#3B9EFF;opacity:.7"></div>
+              <div class="pvbar" style="height:55%;background:#A855F7;opacity:.7"></div>
+              <div class="pvbar" style="height:30%;background:#3B9EFF;opacity:.7"></div>
+              <div class="pvbar" style="height:65%;background:#3B9EFF;opacity:.7"></div>
+            </div>
+            <div class="pvch" style="flex-direction:column;justify-content:center;gap:5px">
+              <div style="height:3px;width:88%;background:#00DFC0;border-radius:2px;opacity:.7"></div>
+              <div style="height:3px;width:64%;background:#A855F7;border-radius:2px;opacity:.7"></div>
+              <div style="height:3px;width:76%;background:#F59E0B;border-radius:2px;opacity:.7"></div>
+              <div style="height:3px;width:50%;background:#3B9EFF;border-radius:2px;opacity:.6"></div>
+            </div>
+          </div>
+          <div class="pvbot">
+            <div class="pvline">
+              <svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="0,32 12,24 24,28 36,16 48,22 60,12 72,18 84,8 100,12" fill="none" stroke="#00DFC0" stroke-width="1.5" opacity="0.7"/>
+                <polygon points="0,32 12,24 24,28 36,16 48,22 60,12 72,18 84,8 100,12 100,40 0,40" fill="rgba(0,223,192,0.08)"/>
+              </svg>
+            </div>
+            <div class="pvcirc"><div class="ring"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="pr-body">
+        <div class="pr-tags">
+          <span class="ptag tc_">HTML5/JS</span>
+          <span class="ptag tp_">Chart.js</span>
+          <span class="ptag ta_">Data Viz</span>
+        </div>
+        <div class="pr-num">// PROJECT_01</div>
+        <h3 class="pr-ttl">Niche Trend Intelligence Dashboard</h3>
+        <p class="pr-desc">Real-time analytics dashboard tracking trend performance across 5+ content niches. Features composite scoring algorithms, multi-platform analysis (YouTube / Instagram / TikTok), radar charts, live pulse indicators, and rising query detection. Built entirely with vanilla JS and Chart.js.</p>
+        <div class="pr-lnk">
+          <a class="plb pp" href="https://testuser.github.io/live-projects/niche-trend-dashboard.html" target="_blank" rel="noopener">↗ Live Demo</a>
+          <a class="plb" href="https://github.com/TESTUSER/live-projects" target="_blank" rel="noopener">{} Source</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="prc rv" style="transition-delay:.2s">
+      <div class="prev pvr2">
+        <div class="pvd">
+          <div class="pvh">
+            <div class="pvdot" style="background:#FF5F57"></div>
+            <div class="pvdot" style="background:#FFBD2E"></div>
+            <div class="pvdot" style="background:#28C840"></div>
+            <div class="tab-row" style="margin-left:8px">
+              <div class="tabc active">All</div>
+              <div class="tabc off">Strategy</div>
+              <div class="tabc off">Charts</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;flex:1;margin-top:4px">
+            <div class="tot-box">
+              <div class="tot-lbl">TREE-OF-THOUGHT</div>
+              <div class="tot-bar" style="background:rgba(168,85,247,.6);width:88%"></div>
+              <div class="tot-bar" style="background:rgba(168,85,247,.4);width:72%"></div>
+              <div class="tot-bar" style="background:rgba(168,85,247,.5);width:60%"></div>
+            </div>
+            <div class="sc-box">
+              <div class="sc-lbl">VIRALITY SCORE</div>
+              <div style="display:flex;align-items:baseline;gap:3px">
+                <div class="sc-num">96</div>
+                <div style="font-size:.48rem;color:var(--t2)">/100</div>
+              </div>
+            </div>
+            <div class="pvch" style="background:rgba(255,255,255,.03)">
+              <div class="pvbar" style="height:55%;background:#00DFC0;opacity:.6"></div>
+              <div class="pvbar" style="height:40%;background:#A855F7;opacity:.6"></div>
+              <div class="pvbar" style="height:80%;background:#00DFC0;opacity:.7"></div>
+              <div class="pvbar" style="height:50%;background:#F59E0B;opacity:.6"></div>
+              <div class="pvbar" style="height:95%;background:#00DFC0;opacity:.8"></div>
+            </div>
+            <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:5px">
+              <div style="font-size:.45rem;color:var(--t3);margin-bottom:4px;font-family:'Fira Code',monospace">HASHTAGS</div>
+              <div class="ht-row">
+                <div class="ht" style="background:rgba(0,223,192,.15);color:#00DFC0">#ai</div>
+                <div class="ht" style="background:rgba(168,85,247,.15);color:#A855F7">#tech</div>
+                <div class="ht" style="background:rgba(0,223,192,.1);color:#00DFC0">#viral</div>
+                <div class="ht" style="background:rgba(245,158,11,.1);color:#F59E0B">#yt</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pr-body">
+        <div class="pr-tags">
+          <span class="ptag tp_">AI Logic</span>
+          <span class="ptag tc_">Chart.js</span>
+          <span class="ptag ta_">Canvas API</span>
+        </div>
+        <div class="pr-num">// PROJECT_02</div>
+        <h3 class="pr-ttl">Content Creator Intelligence System</h3>
+        <p class="pr-desc">Advanced analytics platform implementing Tree-of-Thought AI reasoning to score content virality across platforms. Features 3-branch confidence scoring (volume, velocity, youth signal), virality radar charts, platform-content matching algorithm, hashtag intelligence engine, and scroll-triggered animations — all handcrafted from scratch.</p>
+        <div class="pr-lnk">
+          <a class="plb pp" href="https://testuser.github.io/live-projects/content-intelligence-dashboard.html" target="_blank" rel="noopener">↗ Live Demo</a>
+          <a class="plb" href="https://github.com/TESTUSER/live-projects" target="_blank" rel="noopener">{} Source</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div class="prc rv" style="transition-delay:.3s">
+      <div class="prev pvr3">
+        <div class="pvd">
+          <div class="pvh">
+            <div class="pvdot" style="background:#FF5F57"></div>
+            <div class="pvdot" style="background:#FFBD2E"></div>
+            <div class="pvdot" style="background:#28C840"></div>
+            <div class="pvb" style="background:rgba(255,255,255,.04);margin-left:8px"></div>
+          </div>
+          <div class="ni-row">
+            <div class="ni-lbl">NICHE #1 · AI Workflows &amp; Automation</div>
+            <div class="ni-bar" style="background:linear-gradient(90deg,#F59E0B,transparent);width:90%"></div>
+          </div>
+          <div class="ni-row2">
+            <div class="ni-lbl2">NICHE #2 · Personal Finance (Gen Z)</div>
+            <div class="ni-bar" style="background:linear-gradient(90deg,#00DFC0,transparent);width:75%"></div>
+          </div>
+          <div style="background:rgba(168,85,247,.07);border-left:2px solid #A855F7;border-radius:0 5px 5px 0;padding:5px">
+            <div style="font-size:.5rem;color:#A855F7;font-family:'Fira Code',monospace">4-WEEK CALENDAR · GENERATED</div>
+            <div style="height:2px;background:linear-gradient(90deg,#A855F7,transparent);margin-top:3px;border-radius:1px;width:60%"></div>
+          </div>
+          <div class="cal">
+            <div class="cal-d" style="background:rgba(0,223,192,.35)"></div>
+            <div class="cal-d" style="background:rgba(255,255,255,.1)"></div>
+            <div class="cal-d" style="background:rgba(0,223,192,.35)"></div>
+            <div class="cal-d" style="background:rgba(255,255,255,.1)"></div>
+            <div class="cal-d" style="background:rgba(0,223,192,.35)"></div>
+            <div class="cal-d" style="background:rgba(168,85,247,.35)"></div>
+            <div class="cal-d" style="background:rgba(245,158,11,.35)"></div>
+            <div class="cal-d" style="background:rgba(0,223,192,.25)"></div>
+            <div class="cal-d" style="background:rgba(255,255,255,.1)"></div>
+            <div class="cal-d" style="background:rgba(0,223,192,.25)"></div>
+            <div class="cal-d" style="background:rgba(255,255,255,.1)"></div>
+            <div class="cal-d" style="background:rgba(0,223,192,.25)"></div>
+            <div class="cal-d" style="background:rgba(168,85,247,.25)"></div>
+            <div class="cal-d" style="background:rgba(245,158,11,.25)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pr-body">
+        <div class="pr-tags">
+          <span class="ptag ta_">Python</span>
+          <span class="ptag tc_">AI Research</span>
+          <span class="ptag tp_">Strategy</span>
+        </div>
+        <div class="pr-num">// PROJECT_03</div>
+        <h3 class="pr-ttl">AI YouTube Strategy & Content System</h3>
+        <p class="pr-desc">AI-powered content strategy engine analyzing 10 faceless YouTube niches with keyword mapping, RPM monetization path analysis, brand safety scoring, and auto-generated 4-week content calendars. Includes Shorts repurposing strategy, engagement hooks, and community poll cadence — delivered as a professional 6-page report.</p>
+        <div class="pr-lnk">
+          <a class="plb pp" href="https://testuser.github.io/live-projects/content-strategy-report.pdf" target="_blank" rel="noopener">↗ View Report</a>
+          <a class="plb" href="https://github.com/TESTUSER/live-projects" target="_blank" rel="noopener">{} Source</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs" class="sec">
+  <div class="rv">
+    <div class="stag">04 · Credentials</div>
+    <h2 class="stit">Certifications</h2>
+    <p class="ssub">Verified credentials backing hands-on technical expertise.</p>
+  </div>
+
+  <div class="cert-grid">
+    <div class="certc rv" style="transition-delay:.1s">
+      <div class="cert-ico" style="background:linear-gradient(135deg,#1a8a6a,#0e5050)">🛡️</div>
+      <div>
+        <div class="cert-org">Cisco Networking Academy</div>
+        <div class="cert-name">Introduction to Cybersecurity</div>
+        <div class="cert-dt">// Completed: Apr 09, 2026</div>
+        <div class="cert-id">ID: 91639be8-e404-4d57-afa4-8055a9f5b8b6</div>
+        <div class="vbadge">✓ Verified Certificate</div>
+      </div>
+    </div>
+
+    <div class="certc rv" style="transition-delay:.2s">
+      <div class="cert-ico" style="background:linear-gradient(135deg,#1a1f35,#111828)">🎓</div>
+      <div>
+        <div class="cert-org">Actively Learning</div>
+        <div class="cert-name">More Certifications In Progress</div>
+        <div class="cert-dt">// Python · AI/ML · Cloud Computing</div>
+        <div class="cert-id">CompTIA / AWS / Google ML · TBD 2026</div>
+        <div class="ipbadge">⟳ In Progress</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="sec sec-alt">
+  <div class="rv">
+    <div class="stag">05 · Services</div>
+    <h2 class="stit">What I Build for You</h2>
+    <p class="ssub">Freelance services for clients who need intelligent automation and data tools that actually deliver.</p>
+  </div>
+
+  <div class="svc-grid">
+    <div class="svcc rv" style="transition-delay:.08s">
+      <div class="svc-ico">⚙️</div>
+      <h3>AI Automation Pipelines</h3>
+      <p>Custom LLM-powered workflows that eliminate repetitive tasks, automate data processing, and reclaim 10+ hours per week for you and your team.</p>
+    </div>
+    <div class="svcc rv" style="transition-delay:.14s">
+      <div class="svc-ico">📊</div>
+      <h3>Data Intelligence Dashboards</h3>
+      <p>Real-time analytics dashboards built with HTML, JavaScript, and Chart.js. Turn raw data into actionable visual insights with custom scoring systems.</p>
+    </div>
+    <div class="svcc rv" style="transition-delay:.2s">
+      <div class="svc-ico">🐍</div>
+      <h3>Python Development</h3>
+      <p>Automation scripts, web scrapers, PDF generators, API integrations, and data tools. Clean, documented, production-ready code delivered on time.</p>
+    </div>
+    <div class="svcc rv" style="transition-delay:.26s">
+      <div class="svc-ico">📈</div>
+      <h3>Content Strategy Systems</h3>
+      <p>AI-driven research tools for niche analysis, keyword mapping, content calendars, and platform-specific YouTube/social media growth strategies.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="rv" style="position:relative;z-index:10">
+    <div class="cta-ttl">Ready to Build<br><em>Something Intelligent?</em></div>
+    <p class="cta-sub">I'm available for freelance projects on Upwork. Let's turn your data problem into an automated, scalable solution.</p>
+    <div class="cta-btns">
+      <a href="https://www.upwork.com/freelancers/~TEST" target="_blank" class="btn-p" style="font-size:1rem;padding:15px 38px">
+        ↗ Hire on Upwork
+      </a>
+      <a href="mailto:ituachuba35@gmail.com" class="btn-s" style="padding:15px 38px">
+        📧 Direct Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fc">© 2026 Jideani Chinwuba · Built with purpose, not templates.</div>
+  <div class="fl">
+    <a href="#hero">Top ↑</a>
+    <a href="https://www.upwork.com" target="_blank">Upwork</a>
+    <a href="mailto:ituachuba35@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+// ─── NEURAL CANVAS BACKGROUND ───
+(function(){
+  const cv=document.getElementById('nc'),cx=cv.getContext('2d');
+  let nodes=[],mx=-999,my=-999;
+
+  function resize(){
+    cv.width=window.innerWidth;
+    cv.height=document.getElementById('hero').clientHeight||window.innerHeight;
+  }
+
+  function init(){
+    nodes=[];
+    const n=Math.min(Math.floor(cv.width*cv.height/16000),80);
+    const cols=['#00DFC0','#A855F7','#3B9EFF'];
+    for(let i=0;i<n;i++){
+      nodes.push({
+        x:Math.random()*cv.width,y:Math.random()*cv.height,
+        vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,
+        r:Math.random()*1.6+.6,
+        c:cols[Math.floor(Math.random()*cols.length)],
+        op:Math.random()*.45+.15
+      });
+    }
+  }
+
+  function frame(){
+    cx.clearRect(0,0,cv.width,cv.height);
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<140){
+          cx.beginPath();
+          cx.strokeStyle=`rgba(0,223,192,${(1-d/140)*.1})`;
+          cx.lineWidth=.5;
+          cx.moveTo(nodes[i].x,nodes[i].y);
+          cx.lineTo(nodes[j].x,nodes[j].y);
+          cx.stroke();
+        }
+      }
+    }
+    nodes.forEach(n=>{
+      cx.beginPath();
+      cx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      cx.fillStyle=n.c+Math.floor(n.op*255).toString(16).padStart(2,'0');
+      cx.fill();
+      n.x+=n.vx;n.y+=n.vy;
+      const ddx=n.x-mx,ddy=n.y-my,dd=Math.sqrt(ddx*ddx+ddy*ddy);
+      if(dd<110){n.x+=(ddx/dd)*1.2;n.y+=(ddy/dd)*1.2;}
+      if(n.x<0||n.x>cv.width)n.vx*=-1;
+      if(n.y<0||n.y>cv.height)n.vy*=-1;
+    });
+    requestAnimationFrame(frame);
+  }
+
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  window.addEventListener('resize',()=>{resize();init();});
+  resize();init();frame();
+})();
+
+// ─── NAV SCROLL ───
+window.addEventListener('scroll',()=>{
+  document.getElementById('nb').classList.toggle('on',scrollY>60);
+});
+
+// ─── TYPING ANIMATION ───
+(function(){
+  const roles=[
+    'AI Automation Specialist',
+    'Python Developer',
+    'Data Intelligence Engineer',
+    'Dashboard Developer',
+    'Incoming CS & AI Major'
+  ];
+  let ri=0,ci=0,del=false;
+  const el=document.getElementById('tr');
+  function tick(){
+    const w=roles[ri];
+    if(!del){
+      el.textContent=w.slice(0,++ci);
+      if(ci===w.length){del=true;setTimeout(tick,1900);return;}
+      setTimeout(tick,75+Math.random()*35);
+    }else{
+      el.textContent=w.slice(0,--ci);
+      if(ci===0){del=false;ri=(ri+1)%roles.length;setTimeout(tick,380);return;}
+      setTimeout(tick,35);
+    }
+  }
+  setTimeout(tick,600);
+})();
+
+// ─── SCROLL REVEAL ───
+const rv=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(e=>rv.observe(e));
+
+// ─── SKILL BARS (auto-trigger) ───
+setTimeout(()=>{
+  document.querySelectorAll('.sk-bar').forEach(b=>{b.style.width=b.dataset.w+'%';});
+},700);
+
+// ─── COUNTER ANIMATION ───
+const co=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.querySelectorAll('.cnt').forEach(el=>{
+      const t=+el.dataset.t,step=t/28;let c=0;
+      const tmr=setInterval(()=>{
+        c=Math.min(c+step,t);
+        el.textContent=Math.floor(c);
+        if(c>=t)clearInterval(tmr);
+      },55);
+    });
+  });
+},{threshold:.5});
+document.querySelectorAll('.hero-nums').forEach(s=>co.observe(s));
+
+// ─── SMOOTH SCROLL ───
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
